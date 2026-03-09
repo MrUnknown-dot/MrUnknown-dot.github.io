@@ -1,0 +1,6 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <rect width="300" height="400" fill="#fbf6ff"/>
+  <rect x="28" y="26" width="244" height="348" rx="16" fill="#6f42c1"/>
+  <text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-family="Segoe UI" font-size="28">Atomic</text>
+  <text x="50%" y="58%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-family="Segoe UI" font-size="28">Habits</text>
+</svg>

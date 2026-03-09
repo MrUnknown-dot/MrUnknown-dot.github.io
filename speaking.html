@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Fluento | Speaking</title>
+  <link rel="manifest" href="./pwa/manifest.json" />
+  <meta name="theme-color" content="#6f42c1" />
+  <link rel="stylesheet" href="./css/style.min.css" />
+  <link rel="icon" href="./assets/ec logo.png.jpeg">
+</head>
+
+<body data-page="speaking">
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="openTranslatorBtn" class="translator-chip" type="button" aria-label="Open translator">🌐</button>
+        <h2>Speaking Practice</h2>
+      </div>
+      <a class="profile-chip" href="./about.html">
+        <img id="profileImg" src="./assets/avatar.svg" alt="Profile" />
+      </a>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="dailyPanel">Daily Speaking Task</button>
+      <button class="tab-btn" data-tab="extraPanel">Extra Speaking Tasks</button>
+    </div>
+
+    <section id="dailyPanel" class="tab-panel active">
+      <div class="card">
+        <h3 id="dailyTitle" class="section-title"></h3>
+        <p id="dailyMeta" class="muted"></p>
+        
+        <div id="scrollBox" class="scroll-box">
+          <p id="dailyText"></p>
+        </div>
+
+        <!-- Scroll controls -->
+        <div class="scroll-controls">
+          <div class="scroll-buttons">
+            <button id="playPauseBtn" class="btn btn-outline icon-btn" title="Play/Pause auto-scroll">⏸️</button>
+            <button id="resetScrollBtn" class="btn btn-outline icon-btn" title="Reset to top">🔄</button>
+          </div>
+          <div class="speed-control">
+            <label class="muted" for="speed">Speed</label>
+            <input id="speed" type="range" min="1" max="8" value="1" />
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-buttons">
+          <button id="markDoneBtn" class="btn btn-outline mark-btn">Mark Complete</button>
+        </div>
+        
+        <p id="status" class="status"></p>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">Unlocked Speaking Days</h3>
+        <div id="backlog" class="list"></div>
+      </div>
+    </section>
+
+    <section id="extraPanel" class="tab-panel">
+      <div class="card">
+        <h3 class="section-title">Extra Speaking Tasks</h3>
+        <div id="extraSpeakingList" class="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a class="nav-link" data-page="home" href="./dashboard.html"><span>🏠</span>Home</a>
+    <a class="nav-link" data-page="speaking" href="./speaking.html"><span>🎙️</span>Speaking</a>
+    <a class="nav-link" data-page="listening" href="./listening.html"><span>🎧</span>Listening</a>
+    <a class="nav-link" data-page="extra" href="./extra.html"><span>✨</span>Extra</a>
+    <a class="nav-link" data-page="about" href="./about.html"><span>👤</span>About</a>
+  </nav>
+
+  <script type="module" src="./js/speaking.js"></script>
+</body>
+
+</html>
+

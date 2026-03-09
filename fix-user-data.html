@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fix User Data</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .user { border: 1px solid #ddd; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        button { padding: 10px; margin: 5px; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+    <link rel="icon" href="./assets/ec logo.png.jpeg">
+</head>
+<body>
+    <h1>Fix User Data</h1>
+    <p>This script will update user documents with correct data structure.</p>
+    
+    <div>
+        <button id="loginBtn">Login First</button>
+        <button id="fixDataBtn" disabled>Fix My User Data</button>
+    </div>
+    
+    <div id="status"></div>
+    <div id="userData"></div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxX9PnweFhQHh1urVPZjeTYvfHogIoOBY",
+            authDomain: "l-gallery-2cafd.firebaseapp.com",
+            projectId: "l-gallery-2cafd",
+            storageBucket: "l-gallery-2cafd.firebasestorage.app",
+            messagingSenderId: "900530573003",
+            appId: "1:900530573003:web:5d1e92805cac6f9c79554e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const loginBtn = document.getElementById('loginBtn');
+        const fixDataBtn = document.getElementById('fixDataBtn');
+        const statusDiv = document.getElementById('status');
+        const userDataDiv = document.getElementById('userData');
+
+        loginBtn.addEventListener('click', async () => {
+            const email = prompt("Enter your email:");
+            const password = prompt("Enter your password:");
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                statusDiv.innerHTML = '<span class="success">✅ Logged in successfully!</span>';
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">❌ Login failed: ${error.message}</span>`;
+            }
+        });
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                fixDataBtn.disabled = false;
+                
+                // Show current user data
+                const userRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userRef);
+                
+                if (userDoc.exists()) {
+                    const data = userDoc.data();
+                    userDataDiv.innerHTML = `
+                        <h3>Current User Data:</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    `;
+                }
+            } else {
+                fixDataBtn.disabled = true;
+            }
+        });
+
+        fixDataBtn.addEventListener('click', async () => {
+            const user = auth.currentUser;
+            if (!user) {
+                statusDiv.innerHTML = '<span class="error">❌ Not logged in</span>';
+                return;
+            }
+
+            try {
+                const userRef = doc(db, "users", user.uid);
+                const userDoc = await getDoc(userRef);
+                
+                if (!userDoc.exists()) {
+                    statusDiv.innerHTML = '<span class="error">❌ User document not found</span>';
+                    return;
+                }
+
+                const data = userDoc.data();
+                const updates = {};
+
+                // Ensure arrays exist
+                if (!data.speakingCompleted) {
+                    updates.speakingCompleted = [];
+                }
+                if (!data.listeningCompleted) {
+                    updates.listeningCompleted = [];
+                }
+                if (!data.completedDates) {
+                    // Create completedDates from existing completions
+                    const dates = [];
+                    const today = new Date().toISOString().split('T')[0];
+                    
+                    // If there are completions, add today's date
+                    if ((data.speakingCompleted?.length > 0) || (data.listeningCompleted?.length > 0)) {
+                        dates.push(today);
+                    }
+                    updates.completedDates = dates;
+                }
+                if (!data.lastActive) {
+                    updates.lastActive = new Date().toISOString();
+                }
+
+                if (Object.keys(updates).length > 0) {
+                    await updateDoc(userRef, updates);
+                    statusDiv.innerHTML = '<span class="success">✅ User data fixed successfully!</span>';
+                    
+                    // Show updated data
+                    const updatedDoc = await getDoc(userRef);
+                    userDataDiv.innerHTML = `
+                        <h3>Updated User Data:</h3>
+                        <pre>${JSON.stringify(updatedDoc.data(), null, 2)}</pre>
+                    `;
+                } else {
+                    statusDiv.innerHTML = '<span class="success">✅ User data already correct!</span>';
+                }
+
+            } catch (error) {
+                statusDiv.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>

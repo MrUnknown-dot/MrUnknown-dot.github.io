@@ -1,0 +1,125 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Fluento | Dashboard</title>
+  <link rel="manifest" href="./pwa/manifest.json" />
+  <meta name="theme-color" content="#6d28d9" />
+  <link rel="stylesheet" href="./css/style.min.css" />
+  <link rel="icon" href="./assets/ec logo.png.jpeg">
+</head>
+
+<body data-page="home">
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button id="openTranslatorBtn" class="translator-chip" type="button" aria-label="Open translator">🌐</button>
+        <h2>Fluento</h2>
+      </div>
+      <a class="profile-chip" href="./about.html">
+        <img id="profileImg" src="./assets/avatar.svg" alt="Profile" />
+      </a>
+    </header>
+
+    <div class="quick-nav">
+      <a class="pill-link" href="./speaking.html">
+        <span>🎙️</span>
+        <span>Speak</span>
+      </a>
+      <a class="pill-link" href="./listening.html">
+        <span>🎧</span>
+        <span>Listen</span>
+      </a>
+      <a class="pill-link" href="./extra.html">
+        <span>✨</span>
+        <span>Extra</span>
+      </a>
+      <a class="pill-link" href="./about.html">
+        <span>👤</span>
+        <span>Profile</span>
+      </a>
+    </div>
+
+    <div class="card" style="background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);">
+      <h3 class="section-title" id="welcome" style="margin-bottom: 8px;">Welcome back! 👋</h3>
+      <p id="goal" class="muted" style="font-size: 1rem; margin-bottom: 20px;">Your learning journey continues...</p>
+
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+        <span style="font-weight: 700; color: var(--primary);">30-Day Challenge</span>
+        <span id="progressText" style="font-weight: 600; color: var(--text-light);">0/30</span>
+      </div>
+
+      <div class="progress">
+        <div id="progressFill" style="width:0%"></div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 12px;">
+        <span class="badge badge-success" id="dayUnlockedBadge" style="font-size: 0.85rem;"> Day 1 unlocked</span>
+        <span class="muted" style="font-size: 0.85rem;">⚡ 1-2 min daily</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">Today's Mission</h3>
+      <div style="display: grid; gap: 12px;">
+        <div class="list-item" style="display: flex; align-items: center; gap: 12px; padding: 16px;">
+          <span
+            style="font-size: 2rem; background: var(--surface-soft); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 16px;">🎙️</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; margin-bottom: 4px;">Speaking Practice</div>
+            <div class="muted" style="font-size: 0.85rem;">Read aloud & improve fluency</div>
+          </div>
+          <a href="./speaking.html" class="btn btn-outline"
+            style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Start</a>
+        </div>
+
+        <div class="list-item" style="display: flex; align-items: center; gap: 12px; padding: 16px;">
+          <span
+            style="font-size: 2rem; background: var(--surface-soft); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 16px;">🎧</span>
+          <div style="flex: 1;">
+            <div style="font-weight: 700; margin-bottom: 4px;">Listening Practice</div>
+            <div class="muted" style="font-size: 0.85rem;">Watch & learn new vocabulary</div>
+          </div>
+          <a href="./listening.html" class="btn btn-outline"
+            style="width: auto; padding: 8px 16px; font-size: 0.85rem;">Start</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="section-title">Quick Stats</h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; text-align: center;">
+        <div style="padding: 16px; background: var(--surface-soft); border-radius: var(--radius-md);">
+          <span style="font-size: 1.8rem; display: block; margin-bottom: 4px;">🗓️</span>
+          <div style="font-weight: 700;" id="currentDayStat">Day 1</div>
+          <div class="muted" style="font-size: 0.75rem;">Current</div>
+        </div>
+        <div style="padding: 16px; background: var(--surface-soft); border-radius: var(--radius-md);">
+          <span style="font-size: 1.8rem; display: block; margin-bottom: 4px;">✅</span>
+          <div style="font-weight: 700;" id="completedStat">0</div>
+          <div class="muted" style="font-size: 0.75rem;">Completed</div>
+        </div>
+        <div style="padding: 16px; background: var(--surface-soft); border-radius: var(--radius-md);">
+          <span style="font-size: 1.8rem; display: block; margin-bottom: 4px;">🔥</span>
+          <div style="font-weight: 700;" id="streakStat">0</div>
+          <div class="muted" style="font-size: 0.75rem;">Streak</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a class="nav-link active" data-page="home" href="./dashboard.html"><span>🏠</span>Home</a>
+    <a class="nav-link" data-page="speaking" href="./speaking.html"><span>🎙️</span>Speaking</a>
+    <a class="nav-link" data-page="listening" href="./listening.html"><span>🎧</span>Listening</a>
+    <a class="nav-link" data-page="extra" href="./extra.html"><span>✨</span>Extra</a>
+    <a class="nav-link" data-page="about" href="./about.html"><span>👤</span>Profile</a>
+  </nav>
+
+  <script type="module" src="./js/dashboard.js"></script>
+</body>
+
+</html>

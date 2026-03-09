@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+  <rect width="300" height="400" fill="#eef6ff"/>
+  <rect x="28" y="26" width="244" height="348" rx="16" fill="#1b5fb9"/>
+  <text x="50%" y="48%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-family="Segoe UI" font-size="24">English</text>
+  <text x="50%" y="56%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-family="Segoe UI" font-size="24">Grammar</text>
+  <text x="50%" y="64%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-family="Segoe UI" font-size="24">in Use</text>
+</svg>

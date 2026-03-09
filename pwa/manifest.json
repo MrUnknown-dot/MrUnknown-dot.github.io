@@ -1,0 +1,23 @@
+﻿{
+  "name": "Fluento - 30 Days English Learning",
+  "short_name": "Fluento",
+  "start_url": "../index.html",
+  "display": "standalone",
+  "background_color": "#f4f1ff",
+  "theme_color": "#6f42c1",
+  "description": "30 day speaking and listening English learning PWA",
+  "icons": [
+    {
+      "src": "../assets/ec logo.png.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "../assets/ec logo.png.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}

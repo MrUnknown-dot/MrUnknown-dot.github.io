@@ -1,0 +1,80 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    
+    <title>Fluento | Login or Sign Up - Start Your English Journey</title>
+    <meta name="title" content="Fluento | Login or Sign Up - Start Your English Journey">
+    <meta name="description" content="Sign in to Fluento to continue your 30-day English learning journey. New users can create a free account and start practicing speaking and listening today.">
+    <meta name="keywords" content="English learning login, sign up, create account, learn English free, speaking practice">
+    <meta name="author" content="Lokesh">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="canonical" href="https://mrunknown-dot.github.io/limgoleap-test5/login.html" />
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mrunknown-dot.github.io/limgoleap-test5/login.html">
+    <meta property="og:title" content="Fluento | Login or Sign Up">
+    <meta property="og:description" content="Sign in to continue your English learning journey or create a new account.">
+    <meta property="og:image" content="https://mrunknown-dot.github.io/limgoleap-test5/assets/ec%20logo.png.jpeg">
+    <meta property="og:site_name" content="Fluento">
+    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://mrunknown-dot.github.io/limgoleap-test5/login.html">
+    <meta property="twitter:title" content="Fluento | Login or Sign Up">
+    <meta property="twitter:description" content="Sign in to continue your English learning journey.">
+    <meta property="twitter:image" content="https://mrunknown-dot.github.io/limgoleap-test5/assets/ec%20logo.png.jpeg">
+    
+    <link rel="icon" type="image/x-icon" href="./assets/ec logo.png.jpeg">
+    <link rel="apple-touch-icon" href="./assets/EC.png">
+    
+    <link rel="manifest" href="./pwa/manifest.json" />
+    <meta name="theme-color" content="#6d28d9" />
+    <link rel="stylesheet" href="./css/style.min.css" />
+  </head>
+  <body data-page="login">
+    <main class="auth-shell">
+      <section class="auth-card">
+        <div class="brand">
+          <img src="./assets/ec logo.png.jpeg" alt="Fluento logo" class="pulse" />
+          <h1>Fluento</h1>
+          <p>Master English in 30 Days</p>
+        </div>
+
+        <div style="margin: 24px 0;">
+          <div class="field">
+            <label for="email">📧 Email</label>
+            <input id="email" type="email" class="input" placeholder="your@email.com" />
+          </div>
+
+          <div class="field">
+            <label for="password">🔒 Password</label>
+            <input id="password" type="password" class="input" placeholder="••••••••" />
+          </div>
+        </div>
+
+        <div class="stack">
+          <button id="signInBtn" class="btn btn-primary">
+            <span>🚀</span> Sign In
+          </button>
+          <button id="signUpBtn" class="btn btn-outline">
+            <span>✨</span> Create Account
+          </button>
+          
+          <div class="separator">or continue with</div>
+          
+          <button id="googleBtn" class="btn btn-outline" style="background: #fff; border-color: #e9e5f5;">
+            <span style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <img src="https://www.google.com/favicon.ico" alt="Google" style="width: 20px; height: 20px;" />
+              Google
+            </span>
+          </button>
+        </div>
+
+        <p id="status" class="status"></p>
+      </section>
+    </main>
+    <script type="module" src="./js/auth.js"></script>
+  </body>
+</html>

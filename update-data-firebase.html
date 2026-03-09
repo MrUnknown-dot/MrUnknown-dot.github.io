@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fluento Admin - Update Tasks</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #6f42c1; 
+            border-bottom: 2px solid #6f42c1;
+            padding-bottom: 10px;
+        }
+        h2 { 
+            color: #333; 
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2 button {
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 300px;
+            resize: vertical;
+        }
+        button {
+            background: #6f42c1;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s;
+        }
+        button:hover { 
+            background: #562fa5;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        button.secondary { background: #28a745; }
+        button.secondary:hover { background: #218838; }
+        button.danger { background: #dc3545; }
+        button.danger:hover { background: #c82333; }
+        button.small {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            font-weight: bold;
+        }
+        .success { 
+            background: #d4edda; 
+            color: #155724; 
+            display: block; 
+            border-left: 4px solid #28a745;
+        }
+        .error { 
+            background: #f8d7da; 
+            color: #721c24; 
+            display: block;
+            border-left: 4px solid #dc3545;
+        }
+        .section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+        .section h3 {
+            margin-top: 0;
+            color: #495057;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #495057;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .task-preview {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .task-preview pre {
+            margin: 0;
+            font-size: 12px;
+        }
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #e9ecef;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .tab.active {
+            background: #6f42c1;
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Fluento Admin Dashboard</h1>
+        
+        <!-- Login Section -->
+        <div class="section" id="loginSection">
+            <h2>Admin Login</h2>
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="admin@example.com">
+            </div>
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+            <button onclick="login()">Login to Admin Panel</button>
+        </div>
+
+        <!-- Admin Panel (hidden until login) -->
+        <div id="adminPanel" style="display: none;">
+            
+            <!-- Tabs Navigation -->
+            <div class="tab-container">
+                <div class="tab active" onclick="switchTab('speaking')">🗣️ Speaking Tasks</div>
+                <div class="tab" onclick="switchTab('listening')">🎧 Listening Tasks</div>
+                <div class="tab" onclick="switchTab('extra')">✨ Extra Tasks</div>
+                <div class="tab" onclick="switchTab('bulk')">📦 Bulk Operations</div>
+            </div>
+
+            <!-- Speaking Tasks Tab -->
+            <div id="speakingTab" class="tab-content active">
+                <div class="section">
+                    <h3>
+                        <span>🗣️ Daily Speaking Tasks (30 Days)</span>
+                        <div>
+                            <button class="small" onclick="loadDefaultSpeaking()">Load Default</button>
+                            <button class="small" onclick="validateSpeakingJSON()">Validate JSON</button>
+                        </div>
+                    </h3>
+                    
+                    <div class="toolbar">
+                        <button class="small" onclick="insertSpeakingTemplate()">Insert Template</button>
+                        <button class="small" onclick="formatSpeakingJSON()">Format JSON</button>
+                        <button class="small" onclick="previewSpeaking()">Preview</button>
+                    </div>
+                    
+                    <textarea id="speakingTasks" placeholder="Enter all 30 speaking tasks as JSON array">[
+  {
+    "day": 1,
+    "title": "Day 1: Self Introduction",
+    "duration": "1-2 min",
+    "text": "Hello! My name is [Your Name]. I'm learning English to improve my communication skills. I live in [Your City] and I work as a [Your Job]. In my free time, I enjoy reading books and watching movies. I'm excited to start this 30-day English speaking journey!"
+  },
+  {
+    "day": 2,
+    "title": "Day 2: My Daily Routine",
+    "duration": "2 min",
+    "text": "Every morning, I wake up at 7 AM. First, I brush my teeth and wash my face. Then, I have breakfast - usually cereal with milk or toast with eggs. After that, I start my daily activities. In the evening, I like to relax by watching TV or reading a book. Finally, I go to bed around 11 PM."
+  },
+  {
+    "day": 3,
+    "title": "Day 3: My Family",
+    "duration": "2 min",
+    "text": "Let me tell you about my family. There are five people in my family: my parents, my two siblings, and me. My father is a teacher, and my mother is a nurse. My older brother works at a bank, and my younger sister is still in school. We love spending weekends together, watching movies or having dinner."
+  },
+  {
+    "day": 4,
+    "title": "Day 4: My Favorite Food",
+    "duration": "1-2 min",
+    "text": "My absolute favorite food is pizza. I love how the cheese melts and the toppings create amazing flavors. My favorite toppings are mushrooms, olives, and extra cheese. I also enjoy cooking pizza at home with my family. Food brings people together, and pizza always makes me happy!"
+  },
+  {
+    "day": 5,
+    "title": "Day 5: My Hobbies",
+    "duration": "2 min",
+    "text": "I have several hobbies that I enjoy in my free time. Reading is my favorite - I love getting lost in a good book. I also enjoy photography and taking pictures of nature. On weekends, I often go for long walks in the park with my camera. These hobbies help me relax and express my creativity."
+  },
+  {
+    "day": 6,
+    "title": "Day 6: My Dream Vacation",
+    "duration": "2 min",
+    "text": "If I could go anywhere in the world, I would visit Japan. I'm fascinated by Japanese culture, food, and technology. I'd love to see the cherry blossoms in spring, visit ancient temples in Kyoto, and try authentic sushi in Tokyo. I would also like to experience a traditional tea ceremony."
+  },
+  {
+    "day": 7,
+    "title": "Day 7: Weekend Plans",
+    "duration": "1-2 min",
+    "text": "This weekend, I plan to meet my friends on Saturday. We're going to try that new restaurant downtown. On Sunday, I'll probably stay home and relax. I might watch a movie or read my book. Sometimes the best weekends are the ones where you don't have any big plans!"
+  },
+  {
+    "day": 8,
+    "title": "Day 8: My Favorite Movie",
+    "duration": "2-3 min",
+    "text": "My favorite movie is 'The Pursuit of Happyness.' It's an inspiring true story about a man who overcomes homelessness while raising his young son. The movie teaches us about never giving up, even when life gets difficult. It reminds me that hard work and determination can change your life."
+  },
+  {
+    "day": 9,
+    "title": "Day 9: Technology in Our Lives",
+    "duration": "2-3 min",
+    "text": "Technology has changed how we live and communicate. Smartphones help us stay connected with friends anywhere in the world. We can work from home, learn new skills online, and access information instantly. However, too much screen time can be unhealthy. I try to balance my technology use by spending time outdoors."
+  },
+  {
+    "day": 10,
+    "title": "Day 10: My Ideal Home",
+    "duration": "2 min",
+    "text": "My ideal home would be a cozy house near the beach. I'd love to wake up to the sound of waves every morning. The house would have large windows to let in natural light, a big kitchen for cooking, and a garden where I could grow vegetables. There would be a comfortable reading nook by the window."
+  },
+  {
+    "day": 11,
+    "title": "Day 11: A Memorable Childhood Memory",
+    "duration": "2-3 min",
+    "text": "One of my fondest childhood memories is learning to ride a bicycle. I remember my dad running behind me, holding the seat to keep me balanced. After many tries and a few falls, I finally rode on my own! The feeling of freedom and accomplishment was incredible. That experience taught me that persistence pays off."
+  },
+  {
+    "day": 12,
+    "title": "Day 12: The Importance of Exercise",
+    "duration": "2 min",
+    "text": "Regular exercise is essential for good health. It keeps our bodies strong and our minds sharp. I try to exercise at least three times a week. Sometimes I go for a run in the park, other times I do yoga at home. Exercise helps me reduce stress and sleep better at night."
+  },
+  {
+    "day": 13,
+    "title": "Day 13: My Favorite Season",
+    "duration": "1-2 min",
+    "text": "Autumn is my favorite season. I love watching the leaves change color from green to beautiful shades of red, orange, and yellow. The weather is perfect - not too hot and not too cold. I enjoy wearing cozy sweaters and drinking hot apple cider. There's something magical about crisp autumn mornings."
+  },
+  {
+    "day": 14,
+    "title": "Day 14: If I Could Meet Anyone",
+    "duration": "2 min",
+    "text": "If I could meet anyone in history, I would choose Albert Einstein. His genius changed how we understand the universe. I'd love to ask him about his thought process when developing the theory of relativity. Beyond his intelligence, he was also a kind person who cared about peace and humanity."
+  },
+  {
+    "day": 15,
+    "title": "Day 15: A Funny Story",
+    "duration": "2-3 min",
+    "text": "Last month, I had a funny experience at a coffee shop. I ordered a cappuccino, but when the barista asked for my name, I was distracted and said 'Table for one please!' We both laughed at my mistake. Now I always make sure to listen carefully when ordering coffee!"
+  },
+  {
+    "day": 16,
+    "title": "Day 16: My Best Friend",
+    "duration": "2 min",
+    "text": "My best friend is someone I've known since elementary school. We've been through so much together - good times and bad. What I appreciate most about them is their honesty and sense of humor. They always know how to make me laugh when I'm feeling down. A true friend is someone who accepts you for who you are."
+  },
+  {
+    "day": 17,
+    "title": "Day 17: A Challenge I Overcame",
+    "duration": "2-3 min",
+    "text": "Learning English has been one of my biggest challenges. When I started, I was afraid to speak because I worried about making mistakes. But I realized that making mistakes is part of learning. I began practicing every day, watching English movies, and speaking with friends. Gradually, my confidence grew."
+  },
+  {
+    "day": 18,
+    "title": "Day 18: My Favorite Place in the City",
+    "duration": "2 min",
+    "text": "My favorite place in the city is the public library. It's a peaceful escape from the busy streets outside. I love walking through the aisles, looking at all the books. The smell of old books and the quiet atmosphere help me relax. There's a cozy corner with comfortable chairs where I can read for hours."
+  },
+  {
+    "day": 19,
+    "title": "Day 19: The Importance of Learning Languages",
+    "duration": "2-3 min",
+    "text": "Learning a new language opens doors to new cultures and perspectives. When you speak someone's language, you can connect with them on a deeper level. You can read their literature, understand their jokes, and appreciate their art. Language learning also improves brain function and memory."
+  },
+  {
+    "day": 20,
+    "title": "Day 20: My Perfect Day",
+    "duration": "2 min",
+    "text": "My perfect day would start with a beautiful sunrise and a cup of coffee on the balcony. Then I'd spend the morning doing something creative, like writing or painting. Lunch would be with friends at a nice restaurant. In the afternoon, I'd go for a walk in nature, maybe in a forest or by the sea."
+  },
+  {
+    "day": 21,
+    "title": "Day 21: A Valuable Life Lesson",
+    "duration": "2-3 min",
+    "text": "One valuable lesson I've learned is that happiness comes from within. For a long time, I thought achieving certain goals would make me happy - getting a promotion, buying things, impressing others. But after achieving some of these goals, I realized the happiness was temporary. True happiness comes from appreciating what you have."
+  },
+  {
+    "day": 22,
+    "title": "Day 22: Social Media: Good or Bad?",
+    "duration": "2-3 min",
+    "text": "Social media has both positive and negative aspects. On the positive side, it helps us stay connected with friends and family. However, it can also be addictive and make people feel anxious or inadequate when comparing themselves to others. I think the key is using it mindfully - being aware of how it makes you feel."
+  },
+  {
+    "day": 23,
+    "title": "Day 23: My Future Goals",
+    "duration": "2 min",
+    "text": "In the next five years, I have several goals. Professionally, I want to advance in my career and take on more responsibility. Personally, I want to become fluent in English and maybe learn another language. I also want to travel to at least three new countries and experience different cultures."
+  },
+  {
+    "day": 24,
+    "title": "Day 24: The Value of Money",
+    "duration": "2 min",
+    "text": "Money is important, but it's not everything. It can buy comfort and security, but not happiness or love. I've learned that experiences bring more joy than possessions. Traveling, learning new skills, and spending time with loved ones create memories that last forever. Balance is key."
+  },
+  {
+    "day": 25,
+    "title": "Day 25: A Person I Admire",
+    "duration": "2-3 min",
+    "text": "I admire my grandmother. She grew up in difficult times but always remained positive and kind. She taught me that kindness costs nothing but means everything. Her strength, wisdom, and generosity inspire me to be a better person. She proves that you don't need to be famous to make a difference in people's lives."
+  },
+  {
+    "day": 26,
+    "title": "Day 26: Climate Change",
+    "duration": "2-3 min",
+    "text": "Climate change is one of the biggest challenges of our time. Rising temperatures, extreme weather, and melting ice caps affect everyone. But we can all do our part to help. Simple actions like reducing waste, recycling, using less plastic, and saving energy make a difference. If we all make small changes, together we can protect our planet."
+  },
+  {
+    "day": 27,
+    "title": "Day 27: The Power of Habits",
+    "duration": "2 min",
+    "text": "Habits shape who we are. Small actions repeated daily become part of our character. If you want to change your life, start with small habits. Read ten pages a day, and you'll finish many books in a year. Walk for twenty minutes daily, and you'll be healthier. Practice English for fifteen minutes each day, and you'll see improvement."
+  },
+  {
+    "day": 28,
+    "title": "Day 28: What Makes a Good Leader",
+    "duration": "2-3 min",
+    "text": "A good leader inspires rather than demands. They lead by example and treat everyone with respect. They listen more than they speak and value different opinions. Good leaders take responsibility when things go wrong and give credit to others when things go right. Most importantly, they have integrity."
+  },
+  {
+    "day": 29,
+    "title": "Day 29: Advice to Younger Generation",
+    "duration": "2-3 min",
+    "text": "If I could give advice to young people, I'd tell them: don't be afraid to make mistakes. Mistakes are how we learn and grow. Follow your curiosity, not someone else's expectations. Spend time with people who encourage and support you. Read books, ask questions, and never stop learning. Be kind to yourself and others."
+  },
+  {
+    "day": 30,
+    "title": "Day 30: My 30-Day Journey",
+    "duration": "3-4 min",
+    "text": "Today marks the end of my 30-day English speaking journey. Looking back, I'm proud of my progress. When I started, I felt nervous about speaking English. Now, I feel more confident expressing my thoughts. I've learned new vocabulary, improved my pronunciation, and gained fluency. But this isn't the end - it's just the beginning. Language learning is a lifelong journey. Congratulations on completing this journey with me!"
+  }
+]</textarea>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span id="speakingTaskCount">30 tasks</span>
+                        </div>
+                        <button onclick="updateField('speaking', 'speakingTasks')">Update Speaking Tasks</button>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div id="speakingPreview" class="task-preview" style="display: none;">
+                    <h4>Preview:</h4>
+                    <pre id="speakingPreviewContent"></pre>
+                </div>
+            </div>
+
+            <!-- Listening Tasks Tab -->
+            <div id="listeningTab" class="tab-content">
+                <div class="section">
+                    <h3>🎧 Daily Listening Tasks (30 Days)</h3>
+                    <textarea id="listeningTasks" placeholder="Enter listening tasks as JSON array">[
+  {
+    "day": 1,
+    "title": "Day 1: Greetings and Introductions",
+    "duration": "2 min",
+    "videoId": "s7jXASBWwwI",
+    "vocab": ["hello", "introduce", "meet", "pleasure", "conversation"]
+  }
+]</textarea>
+                    <button onclick="updateField('listening', 'listeningTasks')">Update Listening Tasks</button>
+                </div>
+            </div>
+
+            <!-- Extra Tasks Tab -->
+            <div id="extraTab" class="tab-content">
+                <div class="section">
+                    <h3>✨ Extra Speaking Tasks</h3>
+                    <textarea id="extraSpeaking" placeholder="Enter extra speaking tasks as array of strings">[
+  "Introduce yourself in 60 seconds, including your name, where you're from, and one interesting fact about yourself.",
+  "Describe your morning routine in detail, from waking up to starting your work or studies.",
+  "Talk about your favorite movie and explain why you love it, including the plot, characters, and emotions it evokes.",
+  "Explain one important goal you have for this month and describe the steps you'll take to achieve it.",
+  "Describe your ideal weekend - what would you do, who would you spend it with, and why?",
+  "Tell a story about a time you helped someone or someone helped you.",
+  "Describe your favorite food and explain how to prepare it, step by step.",
+  "Talk about a place you've visited that left a strong impression on you.",
+  "Discuss a skill you'd like to learn and why it interests you.",
+  "Share your opinion about the importance of friendship in our lives."
+]</textarea>
+                    <button onclick="updateField('extraSpeaking', 'extraSpeaking')">Update Extra Speaking</button>
+                </div>
+
+                <div class="section">
+                    <h3>✨ Extra Listening Tasks</h3>
+                    <textarea id="extraListening" placeholder="Enter extra listening tasks as JSON array">[
+  {
+    "title": "Small Talk at Work",
+    "videoId": "x2A_7n4IY1g",
+    "vocab": ["colleague", "schedule", "deadline", "meeting", "project"]
+  },
+  {
+    "title": "Ordering at a Cafe",
+    "videoId": "I3d6G6mS9bY",
+    "vocab": ["menu", "recommend", "payment", "takeaway", "receipt"]
+  },
+  {
+    "title": "Travel Conversation",
+    "videoId": "fLexgOxsZu0",
+    "vocab": ["boarding", "departure", "destination", "passport", "luggage"]
+  }
+]</textarea>
+                    <button onclick="updateField('extraListening', 'extraListening')">Update Extra Listening</button>
+                </div>
+            </div>
+
+            <!-- Bulk Operations Tab -->
+            <div id="bulkTab" class="tab-content">
+                <div class="section">
+                    <h3>📦 Bulk Operations</h3>
+                    <div style="display: grid; gap: 15px;">
+                        <button class="secondary" onclick="loadCurrentData()">📥 Load Current Data</button>
+                        <button class="danger" onclick="updateAll()">📤 Update All Fields</button>
+                        <button onclick="exportData()">💾 Export All Data</button>
+                        <button onclick="importData()">📂 Import Data from File</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status and Info -->
+            <div id="status" class="status"></div>
+            
+            <div class="section">
+                <h3>📊 Database Info</h3>
+                <div id="dbInfo">Not connected</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword,
+            onAuthStateChanged 
+        } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            updateDoc,
+            getDoc,
+            setDoc 
+        } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxX9PnweFhQHh1urVPZjeTYvfHogIoOBY",
+            authDomain: "l-gallery-2cafd.firebaseapp.com",
+            projectId: "l-gallery-2cafd",
+            storageBucket: "l-gallery-2cafd.firebasestorage.app",
+            messagingSenderId: "900530573003",
+            appId: "1:900530573003:web:5d1e92805cac6f9c79554e"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Tab switching
+        window.switchTab = function(tabName) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        };
+
+        window.login = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                showStatus('✅ Login successful!', 'success');
+            } catch (error) {
+                showStatus('❌ Login failed: ' + error.message, 'error');
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('dbInfo').innerHTML = `Logged in as: ${user.email}`;
+                loadCurrentData();
+            }
+        });
+
+        window.loadCurrentData = async function() {
+            try {
+                const docRef = doc(db, "taskCatalog", "english30");
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    
+                    document.getElementById('speakingTasks').value = 
+                        JSON.stringify(data.speaking || [], null, 2);
+                    document.getElementById('listeningTasks').value = 
+                        JSON.stringify(data.listening || [], null, 2);
+                    document.getElementById('extraSpeaking').value = 
+                        JSON.stringify(data.extraSpeaking || [], null, 2);
+                    document.getElementById('extraListening').value = 
+                        JSON.stringify(data.extraListening || [], null, 2);
+                    
+                    updateTaskCount();
+                    showStatus('✅ Current data loaded from Firestore', 'success');
+                }
+            } catch (error) {
+                showStatus('❌ Error loading data: ' + error.message, 'error');
+            }
+        };
+
+        window.updateField = async function(fieldName, elementId) {
+            try {
+                const textarea = document.getElementById(elementId);
+                let newData;
+                
+                try {
+                    newData = JSON.parse(textarea.value);
+                } catch (e) {
+                    showStatus('❌ Invalid JSON format: ' + e.message, 'error');
+                    return;
+                }
+
+                // Validate speaking tasks structure
+                if (fieldName === 'speaking') {
+                    if (!Array.isArray(newData)) {
+                        showStatus('❌ Speaking tasks must be an array', 'error');
+                        return;
+                    }
+                    
+                    // Check each task has required fields
+                    for (let task of newData) {
+                        if (!task.day || !task.title || !task.duration || !task.text) {
+                            showStatus('❌ Each task must have day, title, duration, and text fields', 'error');
+                            return;
+                        }
+                    }
+                    
+                    // Check if we have 30 tasks
+                    if (newData.length !== 30) {
+                        if (!confirm(`You have ${newData.length} tasks. The app expects 30 tasks. Continue anyway?`)) {
+                            return;
+                        }
+                    }
+                }
+
+                const docRef = doc(db, "taskCatalog", "english30");
+                
+                await updateDoc(docRef, {
+                    [fieldName]: newData,
+                    lastUpdated: new Date().toISOString(),
+                    updatedBy: auth.currentUser?.email
+                });
+                
+                showStatus(`✅ ${fieldName} updated successfully!`, 'success');
+                updateTaskCount();
+                
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+            }
+        };
+
+        window.updateAll = async function() {
+            try {
+                const updates = {
+                    speaking: JSON.parse(document.getElementById('speakingTasks').value),
+                    listening: JSON.parse(document.getElementById('listeningTasks').value),
+                    extraSpeaking: JSON.parse(document.getElementById('extraSpeaking').value),
+                    extraListening: JSON.parse(document.getElementById('extraListening').value),
+                    lastUpdated: new Date().toISOString(),
+                    updatedBy: auth.currentUser?.email
+                };
+
+                const docRef = doc(db, "taskCatalog", "english30");
+                const docSnap = await getDoc(docRef);
+                
+                if (docSnap.exists()) {
+                    await updateDoc(docRef, updates);
+                } else {
+                    await setDoc(docRef, updates);
+                }
+                
+                showStatus('✅ All fields updated successfully!', 'success');
+                
+            } catch (error) {
+                showStatus('❌ Error: ' + error.message, 'error');
+            }
+        };
+
+        window.loadDefaultSpeaking = function() {
+            // This will reload the default tasks from the textarea's initial value
+            // You can also define a separate default set here
+            showStatus('Default tasks loaded', 'success');
+        };
+
+        window.validateSpeakingJSON = function() {
+            try {
+                const tasks = JSON.parse(document.getElementById('speakingTasks').value);
+                
+                if (!Array.isArray(tasks)) {
+                    showStatus('❌ Data is not an array', 'error');
+                    return;
+                }
+                
+                let valid = true;
+                let errors = [];
+                
+                tasks.forEach((task, index) => {
+                    if (!task.day) errors.push(`Task ${index + 1}: missing day`);
+                    if (!task.title) errors.push(`Task ${index + 1}: missing title`);
+                    if (!task.duration) errors.push(`Task ${index + 1}: missing duration`);
+                    if (!task.text) errors.push(`Task ${index + 1}: missing text`);
+                });
+                
+                if (errors.length > 0) {
+                    showStatus('❌ Validation errors:\n' + errors.join('\n'), 'error');
+                } else {
+                    showStatus('✅ JSON is valid!', 'success');
+                }
+                
+            } catch (e) {
+                showStatus('❌ Invalid JSON: ' + e.message, 'error');
+            }
+        };
+
+        window.formatSpeakingJSON = function() {
+            try {
+                const tasks = JSON.parse(document.getElementById('speakingTasks').value);
+                document.getElementById('speakingTasks').value = JSON.stringify(tasks, null, 2);
+                showStatus('✅ JSON formatted', 'success');
+            } catch (e) {
+                showStatus('❌ Cannot format invalid JSON', 'error');
+            }
+        };
+
+        window.previewSpeaking = function() {
+            const preview = document.getElementById('speakingPreview');
+            const content = document.getElementById('speakingPreviewContent');
+            
+            try {
+                const tasks = JSON.parse(document.getElementById('speakingTasks').value);
+                content.textContent = JSON.stringify(tasks.slice(0, 3), null, 2) + '\n... and ' + (tasks.length - 3) + ' more tasks';
+                preview.style.display = 'block';
+            } catch (e) {
+                showStatus('❌ Cannot preview invalid JSON', 'error');
+            }
+        };
+
+        window.insertSpeakingTemplate = function() {
+            // Insert a template for a new task at the end
+            try {
+                const tasks = JSON.parse(document.getElementById('speakingTasks').value);
+                const newDay = tasks.length + 1;
+                
+                tasks.push({
+                    day: newDay,
+                    title: `Day ${newDay}: New Topic`,
+                    duration: "2 min",
+                    text: `Day ${newDay}: Write your speaking text here.`
+                });
+                
+                document.getElementById('speakingTasks').value = JSON.stringify(tasks, null, 2);
+                showStatus(`✅ Added template for Day ${newDay}`, 'success');
+                
+            } catch (e) {
+                showStatus('❌ Error inserting template', 'error');
+            }
+        };
+
+        window.exportData = function() {
+            const data = {
+                speaking: JSON.parse(document.getElementById('speakingTasks').value),
+                listening: JSON.parse(document.getElementById('listeningTasks').value),
+                extraSpeaking: JSON.parse(document.getElementById('extraSpeaking').value),
+                extraListening: JSON.parse(document.getElementById('extraListening').value),
+                exportedAt: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Fluento-backup-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            
+            showStatus('✅ Data exported successfully', 'success');
+        };
+
+        window.importData = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (data.speaking) {
+                            document.getElementById('speakingTasks').value = JSON.stringify(data.speaking, null, 2);
+                        }
+                        if (data.listening) {
+                            document.getElementById('listeningTasks').value = JSON.stringify(data.listening, null, 2);
+                        }
+                        if (data.extraSpeaking) {
+                            document.getElementById('extraSpeaking').value = JSON.stringify(data.extraSpeaking, null, 2);
+                        }
+                        if (data.extraListening) {
+                            document.getElementById('extraListening').value = JSON.stringify(data.extraListening, null, 2);
+                        }
+                        
+                        showStatus('✅ Data imported successfully', 'success');
+                        
+                    } catch (error) {
+                        showStatus('❌ Invalid backup file', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        };
+
+        function updateTaskCount() {
+            try {
+                const tasks = JSON.parse(document.getElementById('speakingTasks').value);
+                document.getElementById('speakingTaskCount').textContent = tasks.length + ' tasks';
+            } catch (e) {
+                document.getElementById('speakingTaskCount').textContent = 'Invalid JSON';
+            }
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+            
+            // Auto hide after 5 seconds
+            setTimeout(() => {
+                status.style.display = 'none';
+                setTimeout(() => {
+                    status.style.display = 'block';
+                }, 100);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Fluento | Extra Resources</title>
+    <link rel="manifest" href="./pwa/manifest.json" />
+    <meta name="theme-color" content="#6d28d9" />
+    <link rel="stylesheet" href="./css/style.min.css" />
+    <link rel="icon" href="./assets/ec logo.png.jpeg">
+  </head>
+  <body data-page="extra">
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="openTranslatorBtn" class="translator-chip" type="button" aria-label="Open translator">🌐</button>
+          <h2>Extra Resources</h2>
+        </div>
+        <a class="profile-chip" href="./about.html">
+          <img id="profileImg" src="./assets/avatar.svg" alt="Profile" />
+        </a>
+      </header>
+
+      <div class="card">
+        <h3 class="section-title">💡 Speaking Tips</h3>
+        <div id="tipsList" class="list"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">📚 Recommended Books</h3>
+        <div class="books-grid">
+          <a class="book js-book-link" href="#" data-book-id="atomic-habits" data-book-title="Atomic Habits" data-book-url="https://drive.google.com/uc?export=download&id=1TaUvd0nVk9fY0C-VxUenIYaqJr7O6wPB" data-book-pages="256">
+            <img src="./assets/book-atomic.svg" alt="Atomic Habits" />
+            <div>Atomic Habits</div>
+          </a>
+          <a class="book js-book-link" href="#" data-book-id="power-of-habit" data-book-title="The Power of Habit" data-book-url="https://drive.google.com/uc?export=download&id=1-TPtfwM2a6dvlfcTuqlCib1TBcYngPmT" data-book-pages="32">
+            <img src="./assets/book-power.svg" alt="The Power of Habit" />
+            <div>Power of Habit</div>
+          </a>
+          <a class="book js-book-link" href="#" data-book-id="grammar-in-use" data-book-title="English Grammar in Use" data-book-url="https://drive.google.com/uc?export=download&id=1WY7pzh3Z2JgdyB4J3V7zLyrj7-YLo3sl" data-book-pages="22">
+            <img src="./assets/book-grammar.svg" alt="English Grammar in Use" />
+            <div>Grammar in Use</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">▶️ YouTube Resources</h3>
+        <div class="list">
+          <div class="list-item" style="padding: 0; overflow: hidden;">
+            <div class="video-wrap" style="margin: 0;">
+              <iframe class="js-youtube-embed" data-youtube-src="https://www.youtube-nocookie.com/embed/M7lc1UVf-VE?playsinline=1&rel=0&modestbranding=1" title="Learn English with Music" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <p class="muted js-video-offline-note" style="display:none; padding: 10px 16px 0;">Video unavailable while offline.</p>
+            <div style="padding: 16px;">
+              <strong>Learn with Music</strong>
+              <p class="muted" style="font-size: 0.85rem; margin-top: 4px;">Improve listening through songs</p>
+            </div>
+          </div>
+          
+          <div class="list-item" style="padding: 0; overflow: hidden;">
+            <div class="video-wrap" style="margin: 0;">
+              <iframe class="js-youtube-embed" data-youtube-src="https://www.youtube-nocookie.com/embed/ScMzIvxBSi4?playsinline=1&rel=0&modestbranding=1" title="Everyday English Conversations" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+            <p class="muted js-video-offline-note" style="display:none; padding: 10px 16px 0;">Video unavailable while offline.</p>
+            <div style="padding: 16px;">
+              <strong>Everyday Conversations</strong>
+              <p class="muted" style="font-size: 0.85rem; margin-top: 4px;">Real-life dialogues</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="section-title">🎯 Practice Challenges</h3>
+        <div class="list">
+          <div class="list-item" style="background: linear-gradient(135deg, #fff5f0 0%, #fff 100%);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 2rem;">🎤</span>
+              <div>
+                <strong>5-Minute Free Talk</strong>
+                <p class="muted" style="font-size: 0.85rem;">Speak about any topic for 5 minutes</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="list-item" style="background: linear-gradient(135deg, #f0f9ff 0%, #fff 100%);">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 2rem;">📝</span>
+              <div>
+                <strong>Shadowing Practice</strong>
+                <p class="muted" style="font-size: 0.85rem;">Repeat after native speakers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <nav class="bottom-nav">
+      <a class="nav-link" data-page="home" href="./dashboard.html"><span>🏠</span>Home</a>
+      <a class="nav-link" data-page="speaking" href="./speaking.html"><span>🎙️</span>Speaking</a>
+      <a class="nav-link" data-page="listening" href="./listening.html"><span>🎧</span>Listening</a>
+      <a class="nav-link active" data-page="extra" href="./extra.html"><span>✨</span>Extra</a>
+      <a class="nav-link" data-page="about" href="./about.html"><span>👤</span>Profile</a>
+    </nav>
+
+    <script type="module" src="./js/extra.js"></script>
+  </body>
+</html>
