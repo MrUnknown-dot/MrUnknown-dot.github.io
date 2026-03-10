@@ -148,27 +148,7 @@ authGuard(async (user, userData) => {
   }
   
 
-  
-  // Add debug info to page
-  const debugDiv = document.createElement('div');
-  debugDiv.style.cssText = `
-    margin-top: 20px;
-    padding: 12px;
-    background: #f0f0f0;
-    border-radius: 8px;
-    font-size: 12px;
-    font-family: monospace;
-    white-space: pre-wrap;
-  `;
-  debugDiv.innerHTML = `
-    <strong>Debug Info:</strong><br>
-    Speaking Completed: ${JSON.stringify(speakingCompleted)}<br>
-    Listening Completed: ${JSON.stringify(listeningCompleted)}<br>
-    Completed Dates: ${JSON.stringify(completedDates)}<br>
-    Unlocked Day: ${unlocked}<br>
-    Total Tasks: ${completedTasks}
-  `;
-  
+
   // Add to page if it doesn't exist
   if (!document.getElementById('debugInfo')) {
     debugDiv.id = 'debugInfo';
