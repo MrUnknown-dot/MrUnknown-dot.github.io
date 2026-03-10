@@ -5,7 +5,7 @@ Mobile-first multi-page PWA using HTML, CSS, JavaScript, Firebase Authentication
 ## Setup
 
 1. Create a Firebase project.
-2. Enable Authentication methods:
+2. Enable Authentication methods: 
    - Email/Password
    - Google
 3. Enable Cloud Firestore.
