@@ -1,9 +1,11 @@
 # robots.txt for Fluento
 User-agent: *
 Allow: /
-Sitemap: https://mrunknown-dot.github.io/limgoleap-test5/sitemap.xml
 
-# Disallow admin pages
+# Sitemap location
+Sitemap: https://mrunknown-dot.github.io/sitemap.xml
+
+# Disallow admin / internal pages
 Disallow: /fix-user-data.html
 Disallow: /update-data-firebase.html
 Disallow: /upload-catalog.html
