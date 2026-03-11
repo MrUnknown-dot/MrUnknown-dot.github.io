@@ -8,7 +8,7 @@ registerServiceWorker();
 setBottomNavActive();
 
 const profileName = document.getElementById("profileName");
-const profileEmail = document.getElementById("profileEmail");
+const profileEmail = document.getElementById("profileEmail"); 
 const profilePhoto = document.getElementById("profilePhoto");
 
 const editNameInput = document.getElementById("editName");
