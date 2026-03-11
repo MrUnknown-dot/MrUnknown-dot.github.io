@@ -17,7 +17,7 @@ const ASSETS = [
   "./js/listening.js",
   "./js/extra.js",
   "./js/about.js",
-  "./assets/ec logo.png.jpeg",
+  "./assets/ec logo.png.jpeg", 
   "./assets/avatar.svg",
   "./assets/book-atomic.svg",
   "./assets/book-power.svg",
