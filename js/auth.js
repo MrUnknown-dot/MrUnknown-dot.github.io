@@ -12,7 +12,7 @@ const emailEl = document.getElementById("email");
 const passwordEl = document.getElementById("password");
 const signInBtn = document.getElementById("signInBtn");
 const signUpBtn = document.getElementById("signUpBtn");
-const googleBtn = document.getElementById("googleBtn");
+const googleBtn = document.getElementById("googleBtn"); 
 const statusEl = document.getElementById("status");
 
 registerServiceWorker();
