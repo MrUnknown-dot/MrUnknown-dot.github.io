@@ -11,7 +11,7 @@ import {
 const TOTAL_DAYS = 30;
 
 function registerServiceWorker() {
-  if ("serviceWorker" in navigator) {
+  if ("serviceWorker" in navigator) { 
     navigator.serviceWorker.register("./service-worker.js").catch((err) => {
       console.log("Service worker registration failed:", err);
     });
